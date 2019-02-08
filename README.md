@@ -1,4 +1,4 @@
-##Pokedex React
+#Pokedex React
 Pokedex written in react.js and using PokeApi for data colecting
 made by William de Castro
 
