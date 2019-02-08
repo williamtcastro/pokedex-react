@@ -1,3 +1,9 @@
+##Pokedex React
+Pokedex written in react.js and using PokeApi for data colecting
+made by William de Castro
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
