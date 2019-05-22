@@ -26,7 +26,7 @@ export default class PokemonList extends Component {
                  let url = data.url;
                  let array = url.split('/'); 
                  let pokemon_code = array[6];
-                 let pokemon_img = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+pokemon_code+".png"
+                 let pokemon_img = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+pokemon_code+".png";
                
                 return (
                    <tr onClick={this.props.SearchApi.bind(this, pokemon_code)}>

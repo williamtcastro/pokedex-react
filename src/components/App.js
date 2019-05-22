@@ -28,15 +28,11 @@ class App extends Component {
     this.setState({
         search_input: evt.target.value.toLowerCase(),
     });
+    this.SearchApi();
   }
 
-  SearchApi(pokemonId) {
-    var api;
-    if(!pokemonId){
-      api = "https://pokeapi.co/api/v2/pokemon/" + this.state.search_input;
-    }else{
-      api = "https://pokeapi.co/api/v2/pokemon/" + pokemonId;
-    }
+  SearchApi() {
+    var api = "https://pokeapi.co/api/v2/pokemon/" + this.state.search_input;
 
     const objThis = this;
     fetch(api)
@@ -58,19 +54,20 @@ class App extends Component {
         });
         this.loadTypes();
       
-      }else{
-        alert("POKEMON NON ECXISTE");
       }
+      // else{
+      //   alert("POKEMON NON ECXISTE");
+      // }
     });
   }
 
 
   SearchApiList(offset_i) {
-    let url;
+    let url, limit = 60;
     if(!offset_i){
-      url = "https://pokeapi.co/api/v2/pokemon?offset="+this.state.offset+"&limit=20"
+      url = "https://pokeapi.co/api/v2/pokemon?offset="+this.state.offset+"&limit="+limit;
     }else{
-      url = "https://pokeapi.co/api/v2/pokemon?offset="+offset_i+"&limit=20"
+      url = "https://pokeapi.co/api/v2/pokemon?offset="+offset_i+"&limit="+limit;
     }
     const objThis = this;
     fetch(url)
@@ -101,6 +98,8 @@ class App extends Component {
 
   render() {
     let info_content;
+
+    <InfoBasicContent SearchApi={this.SearchApi.bind(this)} updateInputValue={this.updateInputValue.bind(this)}/>
 
     if(this.state.app_status == 0){
       info_content = <InfoBasicContent SearchApi={this.SearchApi.bind(this)} updateInputValue={this.updateInputValue.bind(this)}/>
