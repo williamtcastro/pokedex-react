@@ -5,6 +5,7 @@ import InfoContent from './InfoContent';
 import Footer from './Footer';
 import InfoBasicContent from './InfoBasicContent';
 import PokemonList from './PokemonList';
+import InfoNoContent from "./InfoNoContent";
 
 class App extends Component {
   
@@ -25,14 +26,22 @@ class App extends Component {
   }
 
   updateInputValue(evt) {
-    this.setState({
-        search_input: evt.target.value.toLowerCase(),
-    });
-    this.SearchApi();
+    console.log(evt.target.value);
+    // this.setState({
+    //     search_input: evt.target.value.toLowerCase(),
+    // }); 
+    // this.SearchApi();
   }
 
-  SearchApi() {
-    var api = "https://pokeapi.co/api/v2/pokemon/" + this.state.search_input;
+  SearchApi(value) {
+    if(value == 0){
+      this.setState({
+        app_status: 0,
+      });
+    }
+    console.log("SEARCH API");
+    // var api = "https://pokeapi.co/api/v2/pokemon/" + this.state.search_input;
+    var api = "https://pokeapi.co/api/v2/pokemon/" + value.toLowerCase();
 
     const objThis = this;
     fetch(api)
@@ -40,21 +49,8 @@ class App extends Component {
       .catch((error) => {})
       .then(findresponse => {
         if (findresponse != null){
-        this.setState({
-          data: {
-            name: findresponse.name,
-            code: findresponse.id,
-            img_front: findresponse.sprites.front_default,
-            img_back: findresponse.sprites.back_default,
-            types: findresponse.types,
-            weight: findresponse.weight,
-            height: findresponse.height,
-            abilities: findresponse.abilities,
-          }
-        });
-        this.loadTypes();
-      
-      }
+          this.loadTypes(findresponse);
+        }
       // else{
       //   alert("POKEMON NON ECXISTE");
       // }
@@ -63,6 +59,7 @@ class App extends Component {
 
 
   SearchApiList(offset_i) {
+    console.log("SEARCH API APP")
     let url, limit = 60;
     if(!offset_i){
       url = "https://pokeapi.co/api/v2/pokemon?offset="+this.state.offset+"&limit="+limit;
@@ -82,7 +79,20 @@ class App extends Component {
       });
   }
 
-  loadTypes(){
+  loadTypes(resp){
+    console.log("loadTypes");
+    this.setState({
+      data: {
+        name: resp.name,
+        code: resp.id,
+        img_front: resp.sprites.front_default,
+        img_back: resp.sprites.back_default,
+        types: resp.types,
+        weight: resp.weight,
+        height: resp.height,
+        abilities: resp.abilities,
+      }});
+
       this.setState({
         pokemonTypes: this.state.data.types,
         pokemonAbilities: this.state.data.abilities,
@@ -99,10 +109,8 @@ class App extends Component {
   render() {
     let info_content;
 
-    <InfoBasicContent SearchApi={this.SearchApi.bind(this)} updateInputValue={this.updateInputValue.bind(this)}/>
-
     if(this.state.app_status == 0){
-      info_content = <InfoBasicContent SearchApi={this.SearchApi.bind(this)} updateInputValue={this.updateInputValue.bind(this)}/>
+      info_content = <InfoNoContent/>
     }
     if(this.state.app_status == 1){
       if(this.state.pokemonListResultsStatus == 0){this.SearchApiList()}

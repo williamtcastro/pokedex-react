@@ -2,6 +2,18 @@ import React, { Component } from "react";
 import './App.css';
 
 export default class InfoBasicContent extends Component {
+
+  constructor(){
+    super();
+    this.handleInput = this.handleInput.bind(this);
+  }
+
+handleInput(evt){
+    this.props.SearchApi(evt.target.value);
+    console.log(evt.target.value);
+}
+
+
     render(){
         return(
         <div class="container spacing">
@@ -11,7 +23,7 @@ export default class InfoBasicContent extends Component {
                         </div>
                         <div class="card-body"><form class="navbar-form navbar-right" onSubmit={this.props.SearchApi.bind(this, null)} action="javascript:void(0)">
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Pesquisar" name="search" onChange={evt => this.props.updateInputValue(evt)}/>
+                  <input type="text" class="form-control" placeholder="Pesquisar" name="search" onChange={evt => this.handleInput(evt)}/>
                   <div class="input-group-btn">
                     <button class="btn btn-default" type="submit">
                         Pesquisar

@@ -3,6 +3,15 @@ import './App.css';
 
 export default class Header extends Component {
 
+    constructor(){
+        super();
+        this.handleInput = this.handleInput.bind(this);
+    }
+
+    handleInput(evt){
+        this.props.SearchApi(evt.target.value);
+    }
+
     render(){
         return(
             <nav class="navbar navbar-expand-sm navbar-light bg-light nav-custom">
@@ -20,10 +29,10 @@ export default class Header extends Component {
                 <a class="nav-link" href="javascript:void(0)" onClick={this.props.setActualPage.bind(this, 1)} >Lista de Pokemons</a>
                 </li>
             </ul>
-            <form class="navbar-form navbar-right" onSubmit={this.props.SearchApi.bind(this, null)} action="javascript:void(0)">
+            <form class="navbar-form navbar-right">
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="Pesquisar" name="search"
-                onChange={evt => this.props.updateInputValue(evt)}/>
+                onChange={evt => this.handleInput(evt)}/>
                   <div class="input-group-btn">
                     <button class="btn btn-default" type="submit">
                         <i class="fa fa-search"></i>
